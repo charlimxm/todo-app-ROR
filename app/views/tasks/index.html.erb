@@ -1,0 +1,33 @@
+<h1>Task Board</h1>
+<h3>Create New Task</h3>
+  <%= form_for @task do |f| %>
+    <%= f.text_field :name, required: true %>
+    <%= f.date_field :date %>
+    <%= f.submit %>
+  <% end %>
+
+</br>
+
+<h3>Tasks</h3>
+  <table style="width:45%">
+    <tr>
+      <th style="width:10%">Status</th>
+      <th style="width:55%">Description</th>
+      <th style="width:15%">Date</th>
+      <th style="width:10%">Update</th>
+      <th style="width:10%">Delete</th>
+    </tr>
+    <% @tasks.each do |t| %>
+      <tr>
+        <td><%= link_to "Complete", complete_task_path(t), method: :patch %></td>
+        <% if t.complete? %>
+          <td><strike><%= t.name %><strike></td>
+        <% else %>
+          <td><b><%= t.name %></b></td>
+        <% end %>
+        <td><%= t.date %></td>
+        <td><%= link_to "Update", :action => 'edit', :id => t.id %></td>
+        <td><%= link_to "Delete", t, method: :delete, data: {confirm: "Are you sure?"} %></td>
+      </tr>
+    <% end %>
+  </table>
